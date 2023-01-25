@@ -41,23 +41,19 @@ public class DeliveryCardTest {
 
     @Test
     public void shouldFormSubmission2() {
-        String date = generateDate(0);
-        System.out.println(date);
+        String date = generateDate(7);
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] input").click();
         $("[data-test-id=city] input").sendKeys("м","о");
         $("[data-test-id=city] input").sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER);
-        $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME));
-        $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.BACK_SPACE));
-        $("[data-test-id=date] input").setValue(date);
         $("[data-test-id=date] .input__control[placeholder='Дата встречи']").
-                sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER);
+                sendKeys(Keys.ARROW_DOWN, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ENTER);
         $("[data-test-id=name] input").setValue("Левченко Татьяна Сергеевна");
         $("[data-test-id=phone] input").setValue("+79151378527");
         $(".checkbox__box").click();
         $(".button__content").click();
         $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
-        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на "));
+        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + date));
     }
 }
